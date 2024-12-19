@@ -59,64 +59,10 @@ model = genai.GenerativeModel(
 )
 
 
-import main as st
-import chromadb
-import os
-import google.generativeai as genai
-from deep_translator import GoogleTranslator
-from dotenv import load_dotenv
 
-# Çevre değişkenlerini yükle
-load_dotenv()
 
-gemini_api_key = os.getenv("GEMINI_API_KEY")
-CHROMA_PATH = "Hesaplama Chroma Database"
 
-# Chroma veritabanı istemcisini başlat
-chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
-collection = chroma_client.get_or_create_collection(name="hesaplama_data")
 
-# GenAI API yapılandırması
-genai.configure(api_key=gemini_api_key)
-generation_config = {
-    "temperature": 1,
-    "top_p": 0.95,
-    "top_k": 40,
-    "max_output_tokens": 8192,
-    "response_mime_type": "text/plain",
-}
-
-# Sistem talimatları
-system_prompt = """
-Siz, Hesaplama Teorisi konusunda uzmanlaşmış bir yapay zeka destekli eğitim asistanısınız.
-
-Temel Rol ve Amaçlarınız:
-1. Hesaplama modelleri (ör. Turing makineleri, deterministik ve nondeterministik modeller), dillerin sınıflandırılması (ör. düzenli diller, bağlamdan bağımsız diller), karmaşıklık teorisi ve algoritmaların temel ilkeleri hakkında net, doğru ve özlü açıklamalar sağlamak.
-2. Öğrenicilerin seviyesine uygun şekilde içeriği uyarlayarak başlangıç seviyesinden ileri seviyeye kadar her düzeydeki öğreniciye hizmet etmek.
-
-Yanıtlama Stratejiniz:
-- Sağlanan bağlam ve dokümanları dikkate alarak en alakalı ve doğru bilgiyi sağlayın.
-- Teknik terimleri açık ve anlaşılır bir şekilde açıklayın.
-- Karmaşık kavramları somut örnekler ve görselleştirmelerle destekleyerek kolay anlaşılır hale getirin.
-- Farklı düzeydeki öğreniciler için uygun anlatım tarzı benimseyin (örneğin, yeni başlayanlar için sade bir dil, ileri düzey öğrenciler için detaylı ve teknik açıklamalar).
-
-Yanıt Verme İlkeleri:
-- Dostane, profesyonel ve teşvik edici bir üslup kullanın.
-- Bilimsel doğruluğu ve tutarlılığı her zaman ön planda tutun.
-- Sorulara açık, mantıklı ve yapılandırılmış yanıtlar verin.
-
-Önemli Not: 
-- Sağlanan bağlamda belirli bir bilgi yoksa, bu durumu belirtin ve genel bilginize başvurarak açıklamalar yapın.
-"""
-
-# GenAI modelini başlat
-model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    generation_config=generation_config,
-    system_instruction=system_prompt
-)
-
-# Streamlit başlığı
 st.set_page_config(page_title="Hesaplama Teorisi Eğitim Asistanı")
 st.title("Hesaplama Teorisi Eğitim Asistanı")
 st.write("Bu asistan, hesaplama teorisi ilgili sorularınıza yanıt vermek için tasarlanmıştır. Sorularınızı aşağıdaki kutuya yazabilirsiniz.")
