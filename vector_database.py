@@ -6,8 +6,8 @@ import os
 from tqdm import tqdm  
 
 
-DATA_PATH = "Mikroişlemci_Data"  
-CHROMA_PATH = "Microprocessor_ChromaDB_Database"  
+DATA_PATH = "Hesaplama Data"  
+CHROMA_PATH = "Hesaplama_Chroma_Database"  
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"  
 
 
